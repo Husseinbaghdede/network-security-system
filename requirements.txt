@@ -5,6 +5,7 @@ setuptools
 pymongo
 certifi
 pymongo[svc]
+scikit-learn
 
 # -e .                                 
                 
