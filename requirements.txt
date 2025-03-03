@@ -8,6 +8,6 @@ pymongo[svc]
 scikit-learn
 dill
 pyaml
-
+mlflow
 # -e .                                 
                 
