@@ -22,6 +22,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier,GradientBoostingClassifier
 
+import dagshub
+dagshub.init(repo_owner='hussein.baghdadi01', repo_name='network-security-system', mlflow=True)
 
 
 class ModelTrainer:
@@ -76,8 +78,7 @@ class ModelTrainer:
             },
             "Gradient Boosting": {
                 'n_estimators': [8, 16, 32, 64, 128, 256],
-                'learning_rate': [.1, .01, .05, .001],
-                'subsample': [.6, .7, .75, .8, .85, .9]
+                'learning_rate': [.1, .01,.001],
             }
         }
         
@@ -113,6 +114,8 @@ class ModelTrainer:
         
         network_model =NetworkModel(preprocessor=preprocessor, model=best_model)
         save_object(self.model_trainer_config.trained_model_file_path, obj=network_model)
+        
+        save_object("final_model/model.pkl",best_model)
         
         ## model trainer artifact
         model_trainer_artifact = ModelTrainerArtifact(
