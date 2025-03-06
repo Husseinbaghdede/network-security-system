@@ -21,10 +21,15 @@ from sklearn.metrics import r2_score
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier,GradientBoostingClassifier
-
+from dotenv import load_dotenv
+load_dotenv()
 import dagshub
-dagshub.init(repo_owner='hussein.baghdadi01', repo_name='network-security-system', mlflow=True)
-
+dagshub.init(
+    repo_owner="hussein.baghdadi01",
+    repo_name="network-security-system",
+    mlflow=True,
+    token=os.environ.get("DAGSHUB_TOKEN")
+)
 
 class ModelTrainer:
     def __init__(self,model_trainer_config:ModelTrainerConfig,
