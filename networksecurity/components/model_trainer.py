@@ -28,7 +28,7 @@ dagshub.init(
     repo_owner="hussein.baghdadi01",
     repo_name="network-security-system",
     mlflow=True,
-    token=os.environ.get("DAGSHUB_TOKEN")
+    token=os.environ.get("NETWORK_SECURITY_DAGSHUB_ACCESS_TOKEN")
 )
 
 class ModelTrainer:
