@@ -79,7 +79,7 @@ jobs:
 
         - name: Pull latest images
           run: |
-            docker pull $${{ secrets.NETWORK_SECURITY_ECR_LOGIN_URI}}/${{ secrets.NETWORK_SECURITY_ECR_REPOSITORY_NAME}}:latest
+            docker pull ${{ secrets.NETWORK_SECURITY_ECR_LOGIN_URI}}/${{ secrets.NETWORK_SECURITY_ECR_REPOSITORY_NAME}}:latest
         
         - name: Run Docker Image to serve users
           run: |
