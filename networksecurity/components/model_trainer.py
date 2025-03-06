@@ -22,10 +22,12 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier,GradientBoostingClassifier
 
+from dotenv import load_dotenv
+load_dotenv()
 os.environ["MLFLOW_TRACKING_URI"] = "https://dagshub.com/hussein.baghdadi01/network-security-system/.mlflow"
 
 os.environ["MLFLOW_TRACKING_USERNAME"] = "hussein.baghdadi01"
-os.environ["MLFLOW_TRACKING_PASSWORD"] = os.getenv("NETWORK_SECURITY_DAGSHUB_ACCESS_TOKEN")
+os.environ["MLFLOW_TRACKING_PASSWORD"] = os.getenv("DAGSHUB_API_TOKEN")
 
 class ModelTrainer:
     def __init__(self,model_trainer_config:ModelTrainerConfig,
