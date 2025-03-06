@@ -7,7 +7,6 @@ on:
     paths-ignore: 
       - 'README.md'
 
-
 jobs:
   integration:
     name: Continuous integration
@@ -24,7 +23,7 @@ jobs:
 
   build-and-push-ecr-image:
     name: Countinues Delivery
-    needs : integration
+    needs: integration
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -45,7 +44,6 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-
 
       - name: Build,tag,and push image to Amazon ECR
         id: build-image
@@ -87,7 +85,9 @@ jobs:
                 -e 'AWS_SECRET_ACCESS_KEY=${{ secrets.NETWORK_SECURITY_SECRET_ACCESS_KEY}}' \
                 -e 'AWS_REGION=${{ secrets.NETWORK_SECURITY_AWS_REGION}}' \
                 -e 'DAGSHUB_TOKEN=${{ secrets.DAGSHUB_API_TOKEN}}' \
+                -e 'MONGODB_URI=${{ secrets.MONGO_DB_URL }}' \
                 ${{ steps.login-ecr.outputs.registry }}/${{ secrets.NETWORK_SECURITY_ECR_REPOSITORY_NAME }}:latest
+
         - name: Clean previous images and containers
           run: |
             docker system prune -f
