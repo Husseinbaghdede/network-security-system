@@ -22,9 +22,10 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier,GradientBoostingClassifier
 
-import dagshub
-dagshub.init(repo_owner='hussein.baghdadi01', repo_name='network-security-system', mlflow=True)
+os.environ["MLFLOW_TRACKING_URI"] = "https://dagshub.com/hussein.baghdadi01/network-security-system/.mlflow"
 
+os.environ["MLFLOW_TRACKING_USERNAME"] = "hussein.baghdadi01"
+os.environ["MLFLOW_TRACKING_PASSWORD"] = os.getenv("NETWORK_SECURITY_DAGSHUB_ACCESS_TOKEN")
 
 class ModelTrainer:
     def __init__(self,model_trainer_config:ModelTrainerConfig,
@@ -38,6 +39,7 @@ class ModelTrainer:
         
         
     def track_mlflow(self,best_model,classification_metric):
+        mlflow.set_tracking_uri(os.environ["MLFLOW_TRACKING_URI"])
         with mlflow.start_run():
             f1_score = classification_metric.f1_score
             precision_score = classification_metric.precision_score
