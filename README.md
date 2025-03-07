@@ -4,7 +4,7 @@ A comprehensive machine learning-driven project designed to analyze network traf
 
 ## Overview
 
-The project integrates machine learning techniques with cloud infrastructure, leveraging AWS services including EC2, ECR, and S3. It incorporates Docker containerization, continuous integration and continuous deployment (CI/CD) via GitHub Actions, and MLflow for robust model tracking.
+The project integrates machine learning techniques with cloud infrastructure, leveraging AWS services including EC2, ECR, and S3. It incorporates Docker containerization, continuous integration and continuous deployment (CI/CD) via GitHub Actions, MLflow for robust model tracking, and MongoDB for secure and efficient data management.
 
 ## Features
 
@@ -14,7 +14,8 @@ The project integrates machine learning techniques with cloud infrastructure, le
 - **Containerization:** Dockerized application for consistent deployment across environments.
 - **CI/CD Pipeline:** Automated build, push, and deployment process via GitHub Actions.
 - **Cloud Deployment:** AWS EC2 for deployment, ECR for Docker image management, and S3 for model storage.
-- **API Integration:** FastAPI is used to serve predictions via RESTful APIs.
+- **Database Integration:** MongoDB used with data ingestion.
+- **API Integration:** FastAPI is used to serve predictions via RESTful APIs and also train.
 
 ## Dataset Structure
 
@@ -71,6 +72,7 @@ NetworkSecurity
 - Docker
 - AWS CLI
 - Python >= 3.8
+- MongoDB
 
 ### Installation
 
@@ -133,4 +135,3 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) for detai
 ---
 
 **Developed by Hussein Baghdadi**
-
