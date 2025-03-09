@@ -1,137 +1,192 @@
 # Network Security Analysis & Threat Detection
 
-A comprehensive machine learning-driven project designed to analyze network traffic and detect potential security threats. The solution employs advanced classification models trained on structured CSV datasets to accurately identify and predict network security anomalies.
+A comprehensive, machine learning-driven solution designed to analyze network traffic and identify potential security threats. Leveraging advanced ML techniques, Docker containerization, robust CI/CD pipelines, MLflow model tracking, and MongoDB, this system effectively predicts and mitigates malicious activities in real-time.
+
+---
+
+## Table of Contents
+
+1. [Overview](#overview)
+2. [Features](#features)
+3. [Architecture](#architecture)
+4. [Project Structure](#project-structure)
+5. [Getting Started](#getting-started)
+6. [Usage](#usage)
+7. [CI/CD Pipeline](#cicd-pipeline)
+8. [Monitoring with MLflow](#monitoring-with-mlflow)
+9. [Contributing](#contributing)
+10. [License](#license)
+11. [Author](#author)
+
+---
 
 ## Overview
 
-The project integrates machine learning techniques with cloud infrastructure, leveraging AWS services including EC2, ECR, and S3. It incorporates Docker containerization, continuous integration and continuous deployment (CI/CD) via GitHub Actions, MLflow for robust model tracking, and MongoDB for secure and efficient data management.
+This project uses supervised machine learning models to detect security threats within network traffic data. Built for scalability and reliability, the solution integrates AWS services (EC2, ECR, S3), Docker, GitHub Actions, MLflow, and MongoDB, ensuring production-grade readiness and ease of deployment.
+
+**Key Highlights:**
+- **Data Ingestion & Validation:** Automated collection and validation of data from MongoDB.
+- **Data Transformation:** Comprehensive preprocessing, including KNN-based imputation.
+- **Model Training:** Employs various classification algorithms (Logistic Regression, Decision Tree, Random Forest, K-Neighbors, AdaBoost, Gradient Boosting) with optimized hyperparameter tuning.
+- **Model Tracking:** Uses MLflow for model versioning, performance tracking (F1-score, precision, recall), and artifact management.
+- **Deployment:** Containerized using Docker with a fully automated CI/CD pipeline via GitHub Actions, deployed on AWS EC2.
+
+---
 
 ## Features
 
-- **Machine Learning Models:** Implements multiple classifiers including Logistic Regression, Decision Tree, Random Forest, K-Neighbors, AdaBoost, and Gradient Boosting.
-- **Model Evaluation:** Utilizes cross-validation and hyperparameter tuning for optimal performance.
-- **Model Tracking:** Integrated MLflow for tracking experiments, metrics (precision, recall, F1-score), and model versions.
-- **Containerization:** Dockerized application for consistent deployment across environments.
-- **CI/CD Pipeline:** Automated build, push, and deployment process via GitHub Actions.
-- **Cloud Deployment:** AWS EC2 for deployment, ECR for Docker image management, and S3 for model storage.
-- **Database Integration:** MongoDB used with data ingestion.
-- **API Integration:** FastAPI is used to serve predictions via RESTful APIs and also train.
+- **End-to-End ML Pipeline** – Automates every stage from ingestion to deployment.
+- **Multiple ML Models** – Tests and selects optimal classifiers.
+- **CI/CD Automation** – Auto-deploys after successful testing and integration.
+- **MLflow Integration** – Logs detailed metrics and artifacts.
+- **Docker Containerization** – Ensures consistency across deployments.
+- **FastAPI REST API** – User-friendly API endpoints for predictions and model retraining.
 
-## Dataset Structure
+---
 
-The dataset is a structured CSV file (`phishingData.csv`) with multiple feature columns representing network traffic attributes, with the last column used as the target variable indicating the presence of a security threat.
+## Architecture
+
+```plaintext
+GitHub Repo
+      │
+      ▼
+GitHub Actions CI/CD
+      │
+      ▼
+Amazon ECR (Docker Images)
+      │
+      ▼
+AWS EC2 (Docker Container)
+      │           │
+      ▼           ▼
+   MongoDB       MLflow Tracking
+```
+
+**Components:**
+- **GitHub Actions:** CI/CD automation.
+- **AWS EC2:** Dockerized deployment environment.
+- **MongoDB:** Data storage and retrieval.
+- **MLflow:** Experiment tracking and model logging.
+
+---
+
+## Project Structure
 
 ```
-feature_1, feature_2, ..., feature_n, target
-```
-
-## Project Architecture
-
-```
-NetworkSecurity
-│
-├── entity
-│   ├── artifact_entity.py
-│   └── config_entity.py
-│
-├── exception
-│   └── exception.py
-│
-├── logging
-│   └── logging.py
-│
-├── utils
-│   ├── main_utils
-│   │   └── utils.py
-│   └── ml_utils
-│       ├── model
-│       │   └── estimator.py
-│       └── metric
-│           └── classification_metric.py
-│
-├── components
-│   ├── model_trainer.py
+network-security-system/
+├── .github/workflows/main.yml      # CI/CD workflow
+├── Dockerfile                      # Docker definition
+├── app.py                          # FastAPI app
+├── components/
 │   ├── data_ingestion.py
 │   ├── data_transformation.py
-│   └── data_validation.py
-│
-├── data
-│   └── phishingData.csv
-│
-├── Dockerfile
-├── docker-compose.yml
-└── .github
-    └── workflows
-        └── main.yml
+│   ├── data_validation.py
+│   └── model_trainer.py
+├── data/                           # Sample data files
+├── networksecurity/
+│   ├── entity/                     # Configs and artifacts
+│   ├── exception/                  # Custom exceptions
+│   ├── logging/                    # Logging setup
+│   └── utils/                      # Utility functions
+├── requirements.txt                # Python dependencies
+└── README.md                       # Project documentation
 ```
+
+---
 
 ## Getting Started
 
 ### Prerequisites
 
+- Python (>= 3.8)
 - Docker
 - AWS CLI
-- Python >= 3.8
-- MongoDB
+- MongoDB (local or cloud-hosted)
+- MLflow (local or cloud-hosted)
 
 ### Installation
 
-Clone the repository:
-
-```sh
+**Clone Repository:**
+```bash
 git clone https://github.com/your-username/network-security-system.git
 cd network-security-system
 ```
 
-### Environment Variables
+**Install Dependencies:**
+```bash
+pip install -r requirements.txt
+```
 
-Create a `.env` file with:
-
+**Setup Environment Variables:** Create `.env` file:
 ```env
 AWS_ACCESS_KEY_ID=your_aws_access_key
 AWS_SECRET_ACCESS_KEY=your_aws_secret_key
 AWS_REGION=your_aws_region
+MONGO_DB_URL=your_mongodb_connection_string
 DAGSHUB_API_TOKEN=your_dagshub_token
-MONGO_DB_URL=your_mongodb_url
 ```
-
-### Docker Deployment
-
-Build and run locally:
-
-```sh
-docker build -t network-security:latest .
-docker run -d -p 8080:8080 --env-file .env network-security:latest
-```
-
-### CI/CD
-
-- The repository includes a GitHub Actions workflow (`main.yml`) to automate testing, building Docker images, pushing to ECR, and deploying on AWS EC2.
-
-### Usage
-
-The FastAPI service will be accessible at:
-
-```
-http://localhost:8080/docs
-```
-
-## API Endpoints
-
-- `/predict`: POST request for classifying network traffic.
-
-## Monitoring
-
-- **MLflow:** Track experiments and model performance at [MLflow Dashboard](https://dagshub.com/hussein.baghdadi01/network-security-system/.mlflow).
-
-## Contributing
-
-Contributions are welcome. Please submit pull requests to the `main` branch.
-
-## License
-
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
-**Developed by Hussein Baghdadi**
+## Usage
+
+### Local Run (without Docker):
+```bash
+uvicorn app:app --host 0.0.0.0 --port 8080
+```
+Visit [http://localhost:8080/docs](http://localhost:8080/docs) for API docs.
+
+### Local Run (with Docker):
+```bash
+docker build -t network-security:latest .
+docker run -d -p 8080:8080 --env-file .env network-security:latest
+```
+Access at [http://localhost:8080](http://localhost:8080).
+
+### Key API Endpoints:
+- `GET /train`: Trigger training pipeline.
+- `POST /predict`: Upload data CSV for predictions.
+- `GET /home`: Dashboard for threat statistics.
+
+---
+
+## CI/CD Pipeline
+
+The workflow defined in `.github/workflows/main.yml` automates:
+
+- **Integration:** Code checks, linting, and unit tests.
+- **Delivery:** Docker image build and push to Amazon ECR.
+- **Deployment:** Image deployment and container execution on AWS EC2.
+
+---
+
+## Monitoring with MLflow
+
+MLflow tracks:
+- Metrics (F1-score, precision, recall).
+- Model versions for easy performance comparison.
+
+Ensure `MLflow` URL is set in `.env` or use external services like DagsHub.
+
+---
+
+## Contributing
+
+- Fork repository and use feature branches.
+- Submit Pull Requests for review.
+- Follow best coding practices and clear commit messaging.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See `LICENSE` for details.
+
+---
+
+## Author
+
+**Hussein Baghdadi**
+
+For collaboration or inquiries, open an issue or reach out via [LinkedIn](https://linkedin.com).
+
