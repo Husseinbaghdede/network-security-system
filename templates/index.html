@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - NetSecure AI{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% block subtitle %}Insights based on latest predictions{% endblock %}
+
+{% block content %}
+<!-- Metric Cards (only if you pass data from your backend) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+
+  {% if threat_count is not none %}
+  <div class="bg-gray-800 p-4 rounded shadow hover:shadow-lg transition-transform transform hover:-translate-y-1">
+    <div class="flex items-center mb-2">
+      <i class="fas fa-bug text-red-500 text-xl mr-2"></i>
+      <span class="text-lg font-semibold">Threats Detected</span>
+    </div>
+    <div class="text-3xl font-bold">{{ threat_count }}</div>
+  </div>
+  {% endif %}
+
+  {% if scan_count is not none %}
+  <div class="bg-gray-800 p-4 rounded shadow hover:shadow-lg transition-transform transform hover:-translate-y-1">
+    <div class="flex items-center mb-2">
+      <i class="fas fa-search text-blue-400 text-xl mr-2"></i>
+      <span class="text-lg font-semibold">Scans Completed</span>
+    </div>
+    <div class="text-3xl font-bold">{{ scan_count }}</div>
+  </div>
+  {% endif %}
+
+  {% if node_count is not none %}
+  <div class="bg-gray-800 p-4 rounded shadow hover:shadow-lg transition-transform transform hover:-translate-y-1">
+    <div class="flex items-center mb-2">
+      <i class="fas fa-network-wired text-green-400 text-xl mr-2"></i>
+      <span class="text-lg font-semibold">Network Nodes</span>
+    </div>
+    <div class="text-3xl font-bold">{{ node_count }}</div>
+  </div>
+  {% endif %}
+
+  {% if model_accuracy is not none %}
+  <div class="bg-gray-800 p-4 rounded shadow hover:shadow-lg transition-transform transform hover:-translate-y-1">
+    <div class="flex items-center mb-2">
+      <i class="fas fa-percentage text-yellow-400 text-xl mr-2"></i>
+      <span class="text-lg font-semibold">Model Accuracy</span>
+    </div>
+    <div class="text-3xl font-bold">{{ model_accuracy }}%</div>
+  </div>
+  {% endif %}
+
+</div>
+
+<!-- Chart (if chart data is provided) -->
+{% if chart_labels and chart_data %}
+<div class="bg-gray-800 p-4 rounded shadow mb-6">
+  <canvas id="dashboardChart" style="max-height: 300px; width: 100%;"></canvas>
+</div>
+{% endif %}
+
+<!-- Predictions Table (if you have predictions) -->
+{% if predictions %}
+<div class="bg-gray-800 p-4 rounded shadow">
+  <h2 class="text-xl font-semibold mb-4">Recent Predictions</h2>
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-700">
+      <thead>
+        <tr class="text-left">
+          <th class="px-4 py-2">Having IP Address</th>
+          <th class="px-4 py-2">URL Length</th>
+          <th class="px-4 py-2">SSL Final State</th>
+          <th class="px-4 py-2">Web Traffic</th>
+          <th class="px-4 py-2">Status</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-600">
+        {% for row in predictions %}
+        <tr>
+          <td class="px-4 py-2">{{ row.having_IP_Address|default("N/A") }}</td>
+          <td class="px-4 py-2">{{ row.URL_Length|default("N/A") }}</td>
+          <td class="px-4 py-2">{{ row.SSLfinal_State|default("N/A") }}</td>
+          <td class="px-4 py-2">{{ row.web_traffic|default("N/A") }}</td>
+          <td class="px-4 py-2">{{ row.status|default("N/A") }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% else %}
+<p>No predictions available. Please upload a CSV file to generate predictions.</p>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if chart_labels and chart_data %}
+<script>
+  const ctx = document.getElementById('dashboardChart').getContext('2d');
+  const dashboardChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: {{ chart_labels | tojson }},
+      datasets: [{
+        label: 'Threats per Scan',
+        data: {{ chart_data | tojson }},
+        borderColor: '#EF4444',
+        fill: false,
+        tension: 0.1
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          labels: {
+            color: '#F8FAFC'
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: '#F8FAFC'
+          }
+        },
+        y: {
+          ticks: {
+            color: '#F8FAFC'
+          }
+        }
+      }
+    }
+  });
+</script>
+{% endif %}
+{% endblock %}

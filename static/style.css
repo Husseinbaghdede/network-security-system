@@ -1,0 +1,56 @@
+/* Basic custom styling */
+body {
+    background: #f8f9fa; /* Light grey background */
+  }
+  
+  /* Hero Section */
+  .hero-section {
+    position: relative;
+    background: url('https://images.unsplash.com/photo-1620756043562-9ef42d9ec389?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80')
+      no-repeat center center/cover;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+  }
+  
+  .hero-text {
+    color: #fff;
+    text-align: center;
+    max-width: 600px;
+    padding: 20px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 10px;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+  .animate-fade-in {
+    animation: fadeIn 2s ease-in-out;
+  }
+  
+  @keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0;}
+    to { transform: translateY(0); opacity: 1;}
+  }
+  .animate-slide-up {
+    animation: slideUp 2s ease-out;
+  }
+  
+  .animate-hover-bounce:hover {
+    transform: translateY(-3px);
+    transition: transform 0.3s;
+  }
+  
+  /* Table container styling */
+  .table-container {
+    overflow-x: auto;
+    background: #fff;
+    border-radius: 5px;
+    padding: 15px;
+  }
+  

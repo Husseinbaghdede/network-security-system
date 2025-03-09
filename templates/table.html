@@ -1,81 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prediction Results Dashboard</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
-        
-        .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.07);
-        }
-        
-        .prediction-table {
-            max-height: 500px;
-            overflow-y: auto;
-        }
-        
-        .prediction-table thead {
-            position: sticky;
-            top: 0;
-            background: rgba(255, 255, 255, 0.9);
-            z-index: 10;
-        }
-        
-        .table-hover tbody tr:hover {
-            background-color: rgba(59, 130, 246, 0.1);
-            transition: background-color 0.3s ease;
-        }
-        
-        .animated-gradient {
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradient-animation 15s ease infinite;
-        }
-        
-        @keyframes gradient-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-    </style>
-</head>
-<body class="min-h-screen flex items-center justify-center p-4">
-    <div class="container mx-auto">
-        <div class="glass-card p-6 md:p-10 shadow-2xl">
-            <div class="flex items-center mb-6 space-x-4">
-                <div class="w-16 h-16 rounded-full animated-gradient flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Prediction Results Dashboard</h1>
-            </div>
-            
-            <div class="prediction-table table-responsive">
-                {{ table | safe }}
-            </div>
-            
-            <div class="mt-6 flex justify-between items-center">
-                <div class="text-sm text-gray-600">
-                    Total Predictions: <span class="font-bold">{{ total_predictions }}</span>
-                </div>
-                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300">
-                    Export Results
-                </button>
-            </div>
-        </div>
-        
-    </div>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Prediction Results - NetSecure AI{% endblock %}
+{% block page_title %}Prediction Results{% endblock %}
+{% block subtitle %}Review the generated predictions{% endblock %}
+
+{% block content %}
+<div class="bg-gray-800 p-6 rounded shadow">
+  <div class="overflow-x-auto">
+    {{ table | safe }}
+  </div>
+</div>
+{% endblock %}

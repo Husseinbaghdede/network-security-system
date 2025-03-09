@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Upload CSV - NetSecure AI{% endblock %}
+{% block page_title %}Upload CSV File{% endblock %}
+{% block subtitle %}Select a CSV file to generate predictions{% endblock %}
+
+{% block content %}
+<div class="bg-gray-800 p-6 rounded shadow">
+  <form action="/predict" method="post" enctype="multipart/form-data">
+    <div class="mb-4">
+      <label for="file" class="block text-sm font-medium mb-2">Choose CSV File</label>
+      <input type="file" id="file" name="file" accept=".csv" class="w-full p-2 text-gray-900 bg-gray-50 border border-gray-300 rounded">
+    </div>
+    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+      Upload and Predict
+    </button>
+  </form>
+</div>
+{% endblock %}

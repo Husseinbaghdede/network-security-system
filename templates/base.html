@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}NetSecure AI Dashboard{% endblock %}</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.8/countUp.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4F46E5;
+      --primary-dark: #4338CA;
+      --secondary: #0EA5E9;
+      --danger: #EF4444;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --dark: #1E293B;
+      --light: #F8FAFC;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: #0F172A;
+      color: var(--light);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      height: 100vh;
+    }
+    .sidebar {
+      background: #1E293B;
+      border-right: 1px solid #334155;
+      height: 100%;
+      padding: 1rem;
+    }
+    .sidebar .logo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    .sidebar .logo i {
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+      color: var(--primary);
+    }
+    .sidebar .menu a {
+      display: block;
+      padding: 0.75rem 1rem;
+      color: #94A3B8;
+      margin-bottom: 0.5rem;
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+    }
+    .sidebar .menu a.active,
+    .sidebar .menu a:hover {
+      background: #0F172A;
+      color: white;
+      border-left: 3px solid var(--primary);
+    }
+    .main-content {
+      padding: 1.5rem;
+      overflow-y: auto;
+    }
+    .page-header {
+      margin-bottom: 1.5rem;
+    }
+  </style>
+  {% block head_extra %}{% endblock %}
+</head>
+<body>
+  <div class="dashboard-grid">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo">
+        <i class="fas fa-shield-alt"></i>
+        <span class="font-bold text-xl">NetSecure AI</span>
+      </div>
+      <div class="menu">
+        <!-- Navigation links -->
+        <a href="/home" class="{% if request.url.path == '/home' %}active{% endif %}">
+          Dashboard
+        </a>
+        <a href="/upload" class="{% if request.url.path == '/upload' %}active{% endif %}">
+          Upload
+        </a>
+      </div>
+
+      <!-- Colorful "Train Model" button below the menu -->
+      <div class="flex justify-center mt-6">
+        <a href="/train"
+           class="inline-block bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white font-semibold py-2 px-4 rounded-full shadow transition-transform transform hover:-translate-y-0.5">
+          Train Model
+        </a>
+      </div>
+
+    </div>
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="page-header">
+        <h1 class="text-2xl font-bold">{% block page_title %}Dashboard{% endblock %}</h1>
+        <p class="text-sm text-gray-400">{% block subtitle %}{% endblock %}</p>
+      </div>
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
